@@ -15,9 +15,14 @@ function App() {
       const response = await fetch(
         "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
       );
-      const data = await response.json();
-      setData(data);
-      setCurrentPageData(data.slice(currentPage - 1, entriesPerPage));
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setData(data);
+        setCurrentPageData(data.slice(currentPage - 1, entriesPerPage));
+      } else {
+        alert("failed to fetch data");
+      }
     } catch (error) {
       console.error(error);
       alert("failed to fetch data");

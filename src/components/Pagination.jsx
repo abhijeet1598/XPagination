@@ -11,7 +11,7 @@ const Pagination = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = () => {
     // try {
     //   const response = await axios.get(
     //     'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json'
@@ -20,7 +20,7 @@ const Pagination = () => {
     // } catch (error) {
     //   alert('failed data fetch');
     // }
-    await axios
+    axios
       .get(
         "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
       )

@@ -6,7 +6,6 @@ import axios from "axios";
 
 function App() {
   const [data, setData] = useState([]);
-  let [currentPageData, setCurrentPageData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const entriesPerPage = 10;
   const lastPage = Math.ceil(data.length / entriesPerPage);
@@ -18,19 +17,14 @@ function App() {
       )
       .then((res) => {
         setData(res.data);
-        setCurrentPageData(res.data.slice(currentPage - 1, entriesPerPage));
       })
-      .catch((error) => {
+      .catch(() => {
         alert("failed to fetch data");
       });
   };
 
-  const getCurrentPageData = () => {
-    let start = (currentPage - 1) * entriesPerPage,
-      end = start + entriesPerPage;
-    currentPageData = data.slice(start, end);
-    setCurrentPageData(currentPageData);
-  };
+  let start = (currentPage - 1) * entriesPerPage;
+  let end = start + entriesPerPage;
 
   const getNextPage = () => {
     if (currentPage < lastPage) setCurrentPage((prevState) => prevState + 1);
@@ -43,10 +37,6 @@ function App() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  useEffect(() => {
-    getCurrentPageData();
-  }, [currentPage]);
 
   return (
     <div className="container">
@@ -62,7 +52,7 @@ function App() {
         </thead>
         <tbody>
           {data &&
-            currentPageData.map((item) => {
+            data.slice(start, end).map((item) => {
               return (
                 <tr key={item.id}>
                   <td>{item.id}</td>

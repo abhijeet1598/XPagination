@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import axios from "axios";
 
 function App() {
   const [data, setData] = useState([]);
@@ -10,18 +11,19 @@ function App() {
   const entriesPerPage = 10;
   const lastPage = Math.ceil(data.length / entriesPerPage);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
+  const fetchData = () => {
+    axios
+      .get(
         "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
-      );
-
-      const data = await response.json();
-      setData(data);
-      setCurrentPageData(data.slice(currentPage - 1, entriesPerPage));
-    } catch (error) {
-      alert("failed to fetch data");
-    }
+      )
+      .then((res) => {
+        setData(res.data);
+        setCurrentPageData(res.data.slice(currentPage - 1, entriesPerPage));
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("failed to fetch data");
+      });
   };
 
   const getCurrentPageData = () => {

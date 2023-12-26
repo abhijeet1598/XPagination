@@ -21,7 +21,6 @@ function App() {
         setCurrentPageData(res.data.slice(currentPage - 1, entriesPerPage));
       })
       .catch((error) => {
-        console.error(error);
         alert("failed to fetch data");
       });
   };

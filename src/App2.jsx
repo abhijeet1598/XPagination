@@ -19,6 +19,7 @@ function App() {
         setData(res.data);
       })
       .catch((error) => {
+        console.error(error);
         alert("failed to fetch data");
       });
   };
@@ -36,7 +37,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   return (
     <div className="container">

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./Pagination.module.css";
+import "./Pagination.css";
 
 const Pagination = () => {
   const [data, setData] = useState([]);
@@ -11,26 +11,15 @@ const Pagination = () => {
     fetchData();
   }, []);
 
-  const fetchData = () => {
-    // try {
-    //   const response = await axios.get(
-    //     'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json'
-    //   );
-    //   setData(response.data);
-    // } catch (error) {
-    //   alert('failed data fetch');
-    // }
-    axios
-      .get(
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
         "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
-      )
-
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        alert("Failed to fetch data");
-      });
+      );
+      setData(response.data);
+    } catch (error) {
+      alert("failed to fetch data");
+    }
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -51,11 +40,11 @@ const Pagination = () => {
   };
 
   return (
-    <div className={styles.tableContainer}>
-      <h1 className={styles.tableTitle}>Employee Data Table</h1>
-      <table className={styles.dataTable}>
+    <div className="tableContainer">
+      <h1 className="tableTitle">Employee Data Table</h1>
+      <table className="dataTable">
         <thead>
-          <tr className={styles.tableHeader}>
+          <tr className="tableHeader">
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
@@ -64,7 +53,7 @@ const Pagination = () => {
         </thead>
         <tbody>
           {currentItems.map((item) => (
-            <tr key={item.id} className={styles.tableRow}>
+            <tr key={item.id} className="tableRow">
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.email}</td>
@@ -74,19 +63,19 @@ const Pagination = () => {
         </tbody>
       </table>
 
-      <div className={styles.paginationContainer}>
-        <div className={styles.paginationButtons}>
+      <div className="paginationContainer">
+        <div className="paginationButtons">
           <button
             onClick={prevPage}
-            className={styles.paginationButton}
+            className="paginationButton"
             style={{ opacity: currentPage > 1 ? 1 : 0.5 }}
           >
             Previous
           </button>
-          <span className={styles.paginationCurrent}>{currentPage}</span>
+          <span className="paginationCurrent">{currentPage}</span>
           <button
             onClick={nextPage}
-            className={styles.paginationButton}
+            className="paginationButton"
             style={{ opacity: currentPage < totalPages ? 1 : 0.5 }}
           >
             Next
